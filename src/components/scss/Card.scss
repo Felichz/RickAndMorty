@@ -1,0 +1,44 @@
+.zoom-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -4px;
+    bottom: -40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3), 1px 1px 3px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 200ms, opacity 250ms, background-color 200ms;
+}
+
+.zoom-button i {
+    color: #333;
+    font-size: 34px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+    width: 300px;
+    color: initial;
+    transition: all 200ms;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.05);
+        z-index: 100;
+
+        .zoom-button {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+.card-image img + .zoom-button {
+    right: 15px;
+    bottom: -25px;
+}

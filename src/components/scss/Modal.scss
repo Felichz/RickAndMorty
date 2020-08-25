@@ -1,0 +1,23 @@
+.modal.open {
+    padding-top: 20px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal img {
+    width: 200px;
+    border-radius: 5px;
+}
+
+.modal-content {
+    width: 100%;
+}
+
+.modal-content h4 {
+    text-align: center;
+}
+
+// .modal-content table th {
+//     text-align: center;
+// }

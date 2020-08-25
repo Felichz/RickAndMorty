@@ -1,0 +1,28 @@
+.navbar-fixed nav {
+    width: calc(100% - 300px);
+}
+
+ul#nav-mobile a > *,
+a.brand-logo > * {
+    vertical-align: middle;
+}
+
+ul#nav-mobile a img {
+    margin-right: 5px;
+}
+
+a.brand-logo {
+    top: -5px;
+}
+
+@media only screen and (max-width: 992px) {
+    .navbar-fixed nav {
+        width: 100%;
+    }
+}
+
+@media (max-width: 550px) {
+    a.brand-logo span {
+        display: none;
+    }
+}
