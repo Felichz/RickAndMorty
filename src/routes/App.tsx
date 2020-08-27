@@ -4,23 +4,30 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import ItemList from '../components/ItemList/ItemList';
 
+import './App.scss';
+
 const App: React.FC = () => (
-    <BrowserRouter>
+    <BrowserRouter basename="/rickandmorty">
         <Layout>
             <Switch>
                 <Route exact path="/">
                     <Redirect to="/characters" />
                 </Route>
-                <Route exact path="/characters">
+
+                <Route path="/characters">
                     <ItemList entity="CHARACTERS" key="1" />
                 </Route>
-                <Route exact path="/locations">
+
+                <Route path="/locations">
                     <ItemList entity="LOCATIONS" key="2" />
                 </Route>
-                <Route exact path="/episodes">
+
+                <Route path="/episodes">
                     <ItemList entity="EPISODES" key="3" />
                 </Route>
             </Switch>
+
+            {/* <ModalWithData /> */}
         </Layout>
     </BrowserRouter>
 );

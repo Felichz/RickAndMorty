@@ -10,14 +10,10 @@ const NavBar: React.FC = () => {
         <div className="navbar-fixed">
             <nav>
                 <div className="nav-wrapper">
-                    <a
-                        href="#!"
-                        data-target="slide-out"
-                        className="sidenav-trigger"
-                    >
+                    <a data-target="slide-out" className="sidenav-trigger">
                         <i className="material-icons">menu</i>
                     </a>
-                    <a href="#!" className="brand-logo center">
+                    <a className="brand-logo center">
                         <img
                             src={rickIcon}
                             alt="Rick Icon"

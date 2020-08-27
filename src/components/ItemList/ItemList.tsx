@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import './scss/ItemList.scss';
 
 import Search from '../Search';
-import Item from './Item';
+import Card from '../Card';
 import ItemListData from './ItemListData';
 import Paginator from '../Paginator';
+import useItemModal from './useItemModal';
+import Modal from '../Modal';
 
 export type EntityTypes = 'CHARACTERS' | 'LOCATIONS' | 'EPISODES';
 
@@ -24,6 +26,8 @@ const ItemList: React.FC<ItemListProps> = ({ entity }) => {
         type: '',
         page: 1,
     });
+
+    const { showModal, modalProps } = useItemModal();
 
     const onSearch = (filterName: string, value: string) => {
         setQueryVariables({
@@ -53,12 +57,14 @@ const ItemList: React.FC<ItemListProps> = ({ entity }) => {
                         <>
                             <div id="item-list">
                                 {items.map((item) => (
-                                    <Item
-                                        entity={entity}
-                                        itemData={item}
-                                        id={item.id}
-                                        key={item.id}
-                                    />
+                                    <div key={item.id}>
+                                        <Card
+                                            {...item}
+                                            onClick={() =>
+                                                showModal(entity, item.id)
+                                            }
+                                        />
+                                    </div>
                                 ))}
                             </div>
 
@@ -71,6 +77,7 @@ const ItemList: React.FC<ItemListProps> = ({ entity }) => {
                     );
                 }}
             </ItemListData>
+            <Modal {...modalProps} />
         </div>
     );
 };

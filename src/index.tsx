@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 
 import App from './routes/App';
 
-import { ApolloClient } from '@apollo/client';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloClient, ApolloProvider } from '@apollo/client';
 import cache from './Apollo/cache';
 
 const client = new ApolloClient({

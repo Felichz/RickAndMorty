@@ -57,6 +57,8 @@ export const SEARCH_EPISODES_QUERY = gql`
 export const GET_CHAR = gql`
     query getChar($id: ID!) {
         data: character(id: $id) {
+            name
+            image
             type
             gender
             species
@@ -67,9 +69,11 @@ export const GET_CHAR = gql`
 export const GET_LOCATION = gql`
     query getLocation($id: ID!) {
         data: location(id: $id) {
+            name
             type
             dimension
             residents {
+                id
                 name
             }
         }
@@ -79,9 +83,11 @@ export const GET_LOCATION = gql`
 export const GET_EPISODE = gql`
     query getEpisode($id: ID!) {
         data: episode(id: $id) {
+            name
             air_date
             episode
             characters {
+                id
                 name
             }
         }
@@ -107,6 +113,8 @@ export interface SearchResponse {
 
 interface GetCharResponse {
     data: {
+        name: string;
+        image: string;
         type: string;
         gender: string;
         species: string;
@@ -115,17 +123,19 @@ interface GetCharResponse {
 
 interface GetLocationResponse {
     data: {
+        name: string;
         type: string;
         dimension: string;
-        residents: { name: string }[];
+        residents: { id: number; name: string }[];
     };
 }
 
 interface GetEpisodeResponse {
     data: {
+        name: string;
         air_date: string;
         episode: string;
-        characters: { name: string }[];
+        characters: { id: number; name: string }[];
     };
 }
 

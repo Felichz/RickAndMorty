@@ -1,10 +1,17 @@
-import { InMemoryCache } from '@apollo/client';
+import { InMemoryCache, makeVar } from '@apollo/client';
+import { ModalProps } from '../components/Modal';
+
+export const modalDataVar = makeVar<ModalProps & { rand?: number }>({});
 
 export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                // My local fields
+                modalData: {
+                    read() {
+                        return { ...modalDataVar(), r: Math.random() };
+                    },
+                },
             },
         },
     },

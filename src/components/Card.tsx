@@ -13,8 +13,14 @@ const Card: React.FC<CardProps> = ({ image, title, description, onClick }) => {
     const cardRef = useRef<HTMLDivElement>(div);
 
     useEffect(() => {
+        const card = cardRef.current;
+
         if (onClick) {
-            cardRef.current.addEventListener('click', () => onClick());
+            card.addEventListener('click', onClick);
+
+            return () => {
+                card.removeEventListener('click', onClick);
+            };
         }
     }, [onClick]);
 

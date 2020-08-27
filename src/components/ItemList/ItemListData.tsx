@@ -3,8 +3,7 @@ import React from 'react';
 import Loader from '../Loader';
 import { EntityTypes, Variables } from './ItemList';
 
-import { useQuery } from 'react-apollo';
-import { DocumentNode } from '@apollo/client';
+import { useQuery, DocumentNode } from '@apollo/client';
 import {
     SEARCH_CHARS_QUERY,
     SEARCH_EPISODES_QUERY,
