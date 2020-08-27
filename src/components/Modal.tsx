@@ -11,6 +11,7 @@ export interface ModalProps {
         title: string;
         items: JSX.Element[];
     };
+    closeButton?: JSX.Element;
     onCloseStart?: () => any;
     onCloseEnd?: () => any;
 }
@@ -21,18 +22,21 @@ const Modal: React.FC<ModalProps> = ({
     image,
     tableData,
     collectionItems,
+    closeButton,
 }) => {
     const modalRef = useRef() as RefObject<HTMLDivElement>;
 
-    console.group('Render');
-    console.log(`Loading is ${loading}`);
+    console.log('Render Modal');
+    // console.group('Render');
+    // console.log(`Loading is ${loading}`);
+    // console.log('       ', closeButton);
 
     const [modal, setModal] = useState<M.Modal | null>();
 
     useEffect(() => {
-        console.group('useEffect');
+        // console.group('useEffect');
         if (modalRef.current) {
-            console.log('init Modal');
+            // console.log('init Modal');
             const newModal = M.Modal.init(modalRef.current, {
                 onCloseStart() {
                     document.body.style.overflow = 'initial';
@@ -41,36 +45,36 @@ const Modal: React.FC<ModalProps> = ({
             });
             setModal(newModal);
         } else {
-            console.log('modalRef not ready');
+            // console.log('modalRef not ready');
         }
-        console.groupEnd();
+        // console.groupEnd();
     }, [modalRef]);
 
     useEffect(() => {
-        console.group('Loading check effect');
+        // console.group('Loading check effect');
         if (modal) {
             if (loading !== undefined) {
                 if (loading) {
-                    console.log(
-                        'Loading is true, showing modal with transition effect'
-                    );
+                    // console.log(
+                    //     'Loading is true, showing modal with transition effect'
+                    // );
                     modal.options.inDuration = 250;
                     modal.open();
                 } else {
-                    console.log('Loading is false, showing modal immediately');
+                    // console.log('Loading is false, showing modal immediately');
                     modal.options.inDuration = 0;
                     modal.open();
                 }
             } else {
-                console.log("There isn't a loading prop.");
+                // console.log("There isn't a loading prop.");
             }
         } else {
-            console.log('Modal is not ready');
+            // console.log('Modal is not ready');
         }
-        console.groupEnd();
+        // console.groupEnd();
     }, [modal, loading]);
 
-    console.groupEnd();
+    // console.groupEnd();
 
     return (
         <div>
@@ -120,9 +124,13 @@ const Modal: React.FC<ModalProps> = ({
                     )}
                 </div>
                 <div className="modal-footer">
-                    <button className="modal-close waves-effect waves-green btn-flat">
-                        Close
-                    </button>
+                    {closeButton ? (
+                        closeButton
+                    ) : (
+                        <button className="modal-close waves-effect waves-green btn-flat">
+                            Close
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

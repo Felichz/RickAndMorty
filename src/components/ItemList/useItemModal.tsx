@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { EntityTypes } from './ItemList';
 
 import {
@@ -21,6 +21,12 @@ type Response = GetSingleItemResponse;
 
 function useItemModal() {
     const [entity, setEntity] = useState<EntityTypes | undefined>();
+    const [prevEntity, setPrevEntity] = useState<EntityTypes | undefined>();
+
+    const [currentId, setCurrentId] = useState<number | undefined>();
+    const [prevId, setPrevId] = useState<number | undefined>();
+
+    console.log('Render useItemModal');
 
     let query: DocumentNode;
     switch (entity) {
@@ -34,31 +40,48 @@ function useItemModal() {
             query = GET_CHAR;
     }
 
-    const [execQuery, response] = useLazyQuery<Response, Variables>(query);
+    const [execQuery, response] = useLazyQuery<Response, Variables>(query, {
+        onCompleted(data) {
+            console.log('onCompleted', data.data.name);
+        },
+    });
     const [modalProps, setModalProps] = useState<ModalProps | undefined>();
 
-    const { data, loading } = response;
+    const sendModal = useRef(false);
+
+    let { data, loading } = response;
 
     const showModal = useCallback(
-        (entity: EntityTypes, id: number) => {
+        (
+            entity: EntityTypes,
+            id: number,
+            prevEntity?: EntityTypes,
+            prevId?: number
+        ) => {
+            setCurrentId(id);
             setEntity(entity);
+            prevEntity && setPrevEntity(prevEntity);
+            prevId && setPrevId(prevId);
+
             execQuery({
                 variables: { id },
             });
+            sendModal.current = true;
         },
         [execQuery]
     );
 
-    useEffect(() => {
-        if (loading || data) {
-            console.log('       Set loading true');
-            setModalProps({ loading: true });
-        }
-        if (data && data.data) {
-            console.log('       Set loading false in 250ms');
+    const sendLoadingModal = useCallback(() => {
+        setModalProps({ loading: true });
+    }, []);
+
+    const sendDataModal = useCallback(
+        (data: Response) => {
             let { data: itemInfo } = data;
+
             let tableData;
             let collectionItems;
+            let closeButton;
 
             const modalCollection = (items: { id: number; name: string }[]) =>
                 items.slice(0, 5).map(({ id, name }) => (
@@ -66,13 +89,28 @@ function useItemModal() {
                         href="#!"
                         className="collection-item"
                         onClick={() => {
-                            showModal('CHARACTERS', id);
+                            showModal('CHARACTERS', id, entity, currentId);
                         }}
                         key={id}
                     >
                         {name}
                     </a>
                 ));
+
+            const goBackButton = () => {
+                if (prevEntity && prevId) {
+                    return (
+                        <button
+                            className="modal-close waves-effect waves-green btn-flat"
+                            onClick={() => {
+                                showModal(prevEntity, prevId);
+                            }}
+                        >
+                            Go Back
+                        </button>
+                    );
+                }
+            };
 
             switch (entity) {
                 case 'EPISODES':
@@ -107,6 +145,7 @@ function useItemModal() {
                         Genre: itemInfo.gender,
                         Species: itemInfo.species,
                     };
+                    closeButton = goBackButton();
             }
 
             const modalData: ModalProps = {
@@ -114,14 +153,31 @@ function useItemModal() {
                 image: itemInfo.image,
                 tableData,
                 collectionItems,
+                closeButton,
             };
 
+            console.log(modalData);
             setTimeout(() => {
-                console.log('       Loading false');
+                console.log(modalData);
                 setModalProps({ ...modalData, loading: false });
             }, 250);
+        },
+        [entity, prevEntity, currentId, prevId, showModal]
+    );
+
+    useEffect(() => {
+        if (sendModal.current) {
+            if (loading || data) {
+                console.log('       SEND LOADING MODAL');
+                sendLoadingModal();
+            }
+            if (!loading && data && data.data) {
+                console.log('       SEND DATA MODAL');
+                sendModal.current = false;
+                sendDataModal(data);
+            }
         }
-    }, [response, data, loading, entity, showModal]);
+    }, [modalProps, data, loading, response, sendLoadingModal, sendDataModal]);
 
     return { showModal, modalProps };
 }
