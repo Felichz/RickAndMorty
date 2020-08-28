@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { CardContainer } from './scss/card';
 
 import './scss/Card.scss';
 export interface CardProps {
@@ -25,7 +26,7 @@ const Card: React.FC<CardProps> = ({ image, title, description, onClick }) => {
     }, [onClick]);
 
     return (
-        <div className="card" ref={cardRef}>
+        <CardContainer className="card" ref={cardRef}>
             <div className="card-image">
                 {image && <img src={image} alt="Card" />}
                 <div className="zoom-button">
@@ -36,7 +37,7 @@ const Card: React.FC<CardProps> = ({ image, title, description, onClick }) => {
                 <span className="card-title">{title}</span>
                 {description && <p>{description}</p>}
             </div>
-        </div>
+        </CardContainer>
     );
 };
 
