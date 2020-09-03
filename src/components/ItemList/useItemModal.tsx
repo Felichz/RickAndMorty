@@ -26,8 +26,6 @@ function useItemModal() {
     const [currentId, setCurrentId] = useState<number | undefined>();
     const [prevId, setPrevId] = useState<number | undefined>();
 
-    console.log('Render useItemModal');
-
     let query: DocumentNode;
     switch (entity) {
         case 'EPISODES':
@@ -41,9 +39,7 @@ function useItemModal() {
     }
 
     const [execQuery, response] = useLazyQuery<Response, Variables>(query, {
-        onCompleted(data) {
-            console.log('onCompleted', data.data.name);
-        },
+        onCompleted(data) {},
     });
     const [modalProps, setModalProps] = useState<ModalProps | undefined>();
 
@@ -156,9 +152,7 @@ function useItemModal() {
                 closeButton,
             };
 
-            console.log(modalData);
             setTimeout(() => {
-                console.log(modalData);
                 setModalProps({ ...modalData, loading: false });
             }, 250);
         },
@@ -168,11 +162,9 @@ function useItemModal() {
     useEffect(() => {
         if (sendModal.current) {
             if (loading || data) {
-                console.log('       SEND LOADING MODAL');
                 sendLoadingModal();
             }
             if (!loading && data && data.data) {
-                console.log('       SEND DATA MODAL');
                 sendModal.current = false;
                 sendDataModal(data);
             }

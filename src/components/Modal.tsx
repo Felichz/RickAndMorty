@@ -26,17 +26,10 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
     const modalRef = useRef() as RefObject<HTMLDivElement>;
 
-    console.log('Render Modal');
-    // console.group('Render');
-    // console.log(`Loading is ${loading}`);
-    // console.log('       ', closeButton);
-
     const [modal, setModal] = useState<M.Modal | null>();
 
     useEffect(() => {
-        // console.group('useEffect');
         if (modalRef.current) {
-            // console.log('init Modal');
             const newModal = M.Modal.init(modalRef.current, {
                 onCloseStart() {
                     document.body.style.overflow = 'initial';
@@ -45,36 +38,24 @@ const Modal: React.FC<ModalProps> = ({
             });
             setModal(newModal);
         } else {
-            // console.log('modalRef not ready');
         }
-        // console.groupEnd();
     }, [modalRef]);
 
     useEffect(() => {
-        // console.group('Loading check effect');
         if (modal) {
             if (loading !== undefined) {
                 if (loading) {
-                    // console.log(
-                    //     'Loading is true, showing modal with transition effect'
-                    // );
                     modal.options.inDuration = 250;
                     modal.open();
                 } else {
-                    // console.log('Loading is false, showing modal immediately');
                     modal.options.inDuration = 0;
                     modal.open();
                 }
             } else {
-                // console.log("There isn't a loading prop.");
             }
         } else {
-            // console.log('Modal is not ready');
         }
-        // console.groupEnd();
     }, [modal, loading]);
-
-    // console.groupEnd();
 
     return (
         <div>
