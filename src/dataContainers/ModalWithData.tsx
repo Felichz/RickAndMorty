@@ -18,12 +18,6 @@ export interface ModalWithDataProps {}
 const ModalWithData: React.FC<ModalWithDataProps> = () => {
     const { data } = useQuery<Response>(GET_MODAL_DATA);
 
-    // if (data && Object.keys(data.modalData).length) {
-    //     return <Modal {...data.modalData} key={data.modalData.title} />;
-    // } else {
-    //     return null;
-    // }
-
     return <Modal {...data?.modalData} />;
 };
 
