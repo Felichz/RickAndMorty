@@ -36,13 +36,13 @@ const ItemListData: React.FC<ItemListDataProps> = ({
             query = SEARCH_CHARS_QUERY;
     }
 
-    const { data, loading, error } = useQuery<Response, Variables>(query, {
+    const { data, loading } = useQuery<Response, Variables>(query, {
         variables,
     });
 
     if (loading) return <Loader />;
 
-    if (error || !data) return <h4>No items found</h4>;
+    if (!data) return <h4>No items found</h4>;
 
     return <>{children(data.data)}</>;
 };
