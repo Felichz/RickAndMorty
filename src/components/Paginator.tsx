@@ -32,7 +32,9 @@ const Paginator: React.FC<PaginatorProps> = ({
         if (start > 1) {
             buttons.push(
                 <li key={'startDots'}>
-                    <a onClick={() => pageChange(1)}>1</a>
+                    <a href="#!" onClick={() => pageChange(1)}>
+                        1
+                    </a>
                 </li>
             );
         }
@@ -48,7 +50,9 @@ const Paginator: React.FC<PaginatorProps> = ({
         for (let i = start; i <= end; i++) {
             buttons.push(
                 <li className={`${active === i && 'active'}`} key={i}>
-                    <a onClick={() => pageChange(i)}>{i}</a>
+                    <a href="#!" onClick={() => pageChange(i)}>
+                        {i}
+                    </a>
                 </li>
             );
         }
@@ -64,7 +68,9 @@ const Paginator: React.FC<PaginatorProps> = ({
         if (end < pages) {
             buttons.push(
                 <li key={pages}>
-                    <a onClick={() => pageChange(pages)}>{pages}</a>
+                    <a href="#!" onClick={() => pageChange(pages)}>
+                        {pages}
+                    </a>
                 </li>
             );
         }
@@ -90,13 +96,13 @@ const Paginator: React.FC<PaginatorProps> = ({
     return (
         <ul className="pagination center" id="paginator">
             <li className={prevPageDisabled ? 'disabled' : 'waves-effect'}>
-                <a onClick={prevPage}>
+                <a href="#!" onClick={prevPage}>
                     <i className="material-icons">chevron_left</i>
                 </a>
             </li>
             {pageButtons()}
             <li className={nextPageDisabled ? 'disabled' : 'waves-effect'}>
-                <a onClick={nextPage}>
+                <a href="#!" onClick={nextPage}>
                     <i className="material-icons">chevron_right</i>
                 </a>
             </li>
